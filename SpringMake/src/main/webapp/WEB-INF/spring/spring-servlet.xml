@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans  
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 컨트롤러로 사용할 클래스를 빈으로 등록 -->
+	<bean id="aaa" class="com.simple.controller.MainController">
+	</bean>
+	
+	<!-- 핸들러매핑, 핸들러어댑터 구현 : bean 으로 만드는거임 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="order" value="1"></property>
+		<property name="mappings" >
+			<!-- test/aaa 요청이 들어오면 aaa빈을 동작시키겠다는 뜻 -->
+			<props>
+			 	<prop key="/test/aaa">aaa</prop>
+			 	<prop key="/test/bbb">aaa</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 뷰 리졸버 만들기(컨트롤러에서 반환되는 url경로를 합성하는 역할) -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	
+	<!-- 핸들러매핑, 핸들러어댑터 역할을 대신하고 스프링 애너테이션을 활성화시켜주는 역할 -->
+	<!-- 이거 쓰면 핸들러매핑, 어댑터 직접 만들지 않아도 됨 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- @Controller 애너테이션을 bean으로 자동 생성 -->
+	<context:component-scan base-package="com.simple.controller"></context:component-scan>
+	
+	<!-- 정적리소스(css, js, html..) 굳이 컨트롤러 태울 필요 없는 것들을 바로 매핑 -->
+	<mvc:resources location="/resources/" mapping="/resources/**"/>
+	
+	
+
+
+
+</beans>

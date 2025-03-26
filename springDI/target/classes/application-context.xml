@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+		<!-- 미리 bean을 만들어두고 필요하면 꺼내서 쓰기 
+		아래 구문은 hello객체륾 만들어두고  gildong이라는 이름을 준것임-->
+		<bean class="com.simple.ex01.Hello" id="gildong"></bean>
+		
+		<!-- constructor -->
+		<bean class="com.simple.ex02.Chef" id="chef"></bean>
+		<bean class="com.simple.ex02.Hotel" id="hotel">
+			<constructor-arg ref="chef"></constructor-arg></bean>
+		
+		<!-- setter -->
+		<bean class="com.simple.ex03.DataSource" id="dataSource">
+			<property name="url" value="오라클 주소"/>
+			<property name="uid" value="jsp"/>
+			<property name="upw" value="1234"/>
+		</bean>
+		
+			
+		<!-- memberDAO가 setter를 통해 dataSource를 주입받는다. -->
+		<bean class="com.simple.ex03.MemberDAO" id="memberDAO">
+			<property name="dataSource" ref="dataSource"/>
+			<!-- 지금 dataSource는 객체니까 ref에 써야되고, name은 getter명 따라가니까 
+			getter랑 똑같이 써줘야됨. -->
+		</bean>
+		
+		
+		
+</beans> <!-- 네임스페이스 : 라이브러리 참조를 위함. 설정파일 -->
